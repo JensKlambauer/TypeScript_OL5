@@ -185,7 +185,7 @@ class MapService implements IMapService {
 
     private popupShow(evt: any): void {
         const prettyCoord = toStringHDMS(transform(evt.coordinate, "EPSG:3857", "EPSG:4326"), 2);
-        this.popup.show(evt.coordinate, "<div><h3>Koordinaten</h3><p>" + prettyCoord + "</p></div>");
+        this.popup.show(evt.coordinate, "<div><h3>Koordinaten</h3><code class='code'>" + prettyCoord + "</code></div>");
     }
 }
 
