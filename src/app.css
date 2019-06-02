@@ -1,0 +1,71 @@
+@import "~ol/ol.css";
+@import "./css/ol-layerswitcher.css";
+@import "./css/ol-popup.css";
+@import "./css/ol-drawtools.css";
+
+body {
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: small;
+}
+
+.map {
+    /* position: absolute; */
+    /* top: 140px; */
+    /* bot: 0; */
+    width: 700px;
+    height: 500px;
+    max-width: 800px;
+    max-height: 600px;
+}
+
+.ol-mouse-position {
+    right: 3em;
+    color: #fff;
+    background-color: rgba(0, 60, 136, 0.5);
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+
+.ol-scale-line {
+    left: 20px;
+}
+
+.ol-rotate {
+    top: 3em;
+}
+
+.ol-zoom-extent {
+    left: 50px;
+    top: 0.4em !important;
+}
+
+.ol-zoom-in.ol-has-tooltip:hover [role=tooltip],
+.ol-zoom-in.ol-has-tooltip:focus [role=tooltip] {
+    top: 3px;
+}
+
+.ol-zoom-out.ol-has-tooltip:hover [role=tooltip],
+.ol-zoom-out.ol-has-tooltip:focus [role=tooltip] {
+    top: 232px;
+}
+
+.ol-control {
+    z-index: 1100;
+}
+
+.reset-map {
+    left: 85px;
+    top: 0.4em !important;
+}
+
+#infoWindow {
+    display: none;
+    padding: 15px 15px 15px 15px;
+    width: 200px;
+    height: 180px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    opacity: 1.0;
+}
