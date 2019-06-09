@@ -1,18 +1,12 @@
-// import "ol/ol.css";
 import "./app.css";
-import "promise-polyfill/src/polyfill";
+// import "promise-polyfill/src/polyfill";
 
 import { Karte } from "./MapService";
 import { Searchresult } from "./OsmSearchresults";
 import SearchService from "./SearchService";
 
-let map: Karte = null;
-
-// ready(function () {
-// console.log("Karte ready!");
-map = new Karte();
-map.initMap();
-// });
+const karte: Karte = new Karte();
+karte.initMap();
 
 document.querySelector("#ortsuchen").addEventListener("click", (evt) => {
     const suchTxt = document.querySelector<HTMLInputElement>("#suchText").value;
@@ -26,7 +20,7 @@ document.querySelector("#ortsuchen").addEventListener("click", (evt) => {
 
 document.querySelector("#printMap").addEventListener("click", () => {
     // console.log("Karte export");
-    map.printMap();
+    karte.printMap();
 });
 
 function addErgebnisLinks(osmresult?: Searchresult[]): void {
@@ -67,7 +61,7 @@ function refreshLinks(): void {
 
 function jumptolonlat(lon?: number, lat?: number): any {
     if (lon && lat) {
-        if (map.jumpToPosition(lon, lat)) {
+        if (karte.jumpToPosition(lon, lat)) {
             document.querySelector("#suchergebnisse").innerHTML = "";
             return true;
         }
