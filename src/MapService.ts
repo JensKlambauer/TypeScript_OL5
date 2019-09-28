@@ -27,6 +27,7 @@ import VectorLayer from "ol/layer/Vector";
 import { Coordinate, toStringHDMS, createStringXY } from 'ol/coordinate';
 import { containsXY } from 'ol/extent';
 // import { DrawTools } from "./DrawTools";
+import { toPng } from 'html-to-image';
 
 class MapService implements IMapService {
     private popup: Popup;
@@ -137,34 +138,64 @@ class MapService implements IMapService {
         return false;
     }
 
-    public printMap(): void {      
+    public printMap(): void {
+        const exportOptions = {
+            filter: function (element: HTMLElement) {                             
+                if (element.className) {
+                    if (element.classList.contains("ol-mouse-position")) {                         
+                        return false;
+                    }
+
+                    if (element.classList.contains("ol-scale-line")) {                         
+                        return false;
+                    }
+
+                    if (element.classList.contains("ol-control"))
+                        return false;
+                }
+
+                return true;
+            },
+            width: 0, 
+            height: 0
+        };
         const width = 800;
         const height = 600;
         const size = this.map.getSize();
-        console.log("loading " + size);
-        const extentorg = this.map.getView().calculateExtent(size);
+        console.log("loading", size);
+        const viewResolution = this.map.getView().getResolution();
+        // const extentorg = this.map.getView().calculateExtent(size);
         const map = this.map;
 
         map.once('rendercomplete', function (event) {
-            const canvas = event.context.canvas;
-            const targetCanvas = document.createElement("canvas");
-            const size1 = map.getSize();
-            console.log("targetCanvas " + map.getSize());
-            targetCanvas.width = size1[0];
-            targetCanvas.height = size1[1];
-            targetCanvas.getContext("2d").drawImage(canvas,
-                0, 0, canvas.width, canvas.height,
-                0, 0, targetCanvas.width, targetCanvas.height);
-            targetCanvas.toBlob(function (blob) {
-                saveAs(blob, "karte.png");
-                console.log("saveAs " + map.getSize());
-            });
+            exportOptions.width = width;
+            exportOptions.height = height;
+            toPng(map.getViewport(), exportOptions)
+                .then(function (dataURL) {
+                    saveAs(dataURL, "karte.png");
+                    map.setSize(size);
+                    map.getView().setResolution(viewResolution);
+                    console.log("saved png")
+                });
+            // const canvas = event.context.canvas;
+            // const targetCanvas = document.createElement("canvas");
+            // const size1 = map.getSize();
+            // console.log("targetCanvas " + map.getSize());
+            // targetCanvas.width = size1[0];
+            // targetCanvas.height = size1[1];
+            // targetCanvas.getContext("2d").drawImage(canvas,
+            //     0, 0, canvas.width, canvas.height,
+            //     0, 0, targetCanvas.width, targetCanvas.height);
+            // targetCanvas.toBlob(function (blob) {
+            //     saveAs(blob, "karte.png");
+            //     console.log("saveAs " + map.getSize());
+            // });
         });
-
-        map.setSize([width, height]);
-        map.getView().fit(extentorg, { size: [width, height] });
-        // map.renderSync();
-        console.log("renderSync end " + map.getSize());
+        const printSize = [width, height];
+        map.setSize(printSize);
+        const scaling = Math.min(width / size[0], height / size[1]);
+        map.getView().setResolution(viewResolution / scaling);
+        console.log("renderSync", map.getSize());
     }
 
     public changeLayer(): void {
