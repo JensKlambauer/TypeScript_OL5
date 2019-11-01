@@ -9,7 +9,7 @@
     "url": "https://github.com/JensKlambauer/TypeScript_OL5.git"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --watch",
+    "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production --config webpack.prod.js",
     "dev-server": "webpack-dev-server --mode development --no-colors --quiet",
     "rebuild": "rimraf dist/* && npm run build"
@@ -19,7 +19,7 @@
     "file-saver": "^2.0.2",
     "html-to-image": "^0.1.1",
     "json2typescript": "^1.2.3",
-    "ol": "^6.0.1",
+    "ol": "^6.1.0",
     "promise-polyfill": "^8.1.3"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "typescript": "^3.6.4",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
   }
 }

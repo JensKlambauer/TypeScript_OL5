@@ -49,16 +49,17 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+            // favicon: "./content/favicon.ico",
             filename: "index.html",
             template: path.join(root, "src", "index.ejs"),
         }),
         new CopyWebpackPlugin([
             { from: "content",  to: "files" }
         ]),
-        new webpack.HotModuleReplacementPlugin()
+        // new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-        // contentBase: path.join(__dirname, "dist"),
+        // contentBase: dist,
         // compress: true,
         port: 9000
     }
