@@ -17,7 +17,6 @@ import { saveAs } from "file-saver";
 import { SachsenWMSDop, Siedlung, Gemeinden, LandkreiseLayer } from "./Layers";
 import { KartenFeatures } from "./Features";
 import { Popup } from "./Popup";
-// import { InfoOverlay } from "./InfoOverlay";
 // import feature from "ol/render/feature";
 // import Snap from "ol/interaction/Snap";
 // import Projection from 'ol/proj/Projection';
@@ -28,6 +27,8 @@ import { Coordinate, toStringHDMS, createStringXY } from 'ol/coordinate';
 import { containsXY } from 'ol/extent';
 // import { DrawTools } from "./DrawTools";
 import { toPng } from 'html-to-image';
+import { InfoOverlay } from "./InfoOverlay";
+import { Size } from "ol/size";
 
 class MapService implements IMapService {
     private popup: Popup;
@@ -96,15 +97,15 @@ class MapService implements IMapService {
         this.map.addOverlay(this.popup);
         this.map.on("singleclick", (evt) => this.popupShow(evt));
 
-        // const infoOverlay = new InfoOverlay();
-        // this.map.addOverlay(infoOverlay);
-        // infoOverlay.show(this.map.getView().getCenter(),
-        //     "<div> Bitte betroffene Region auf der Karte markieren: " +
-        //     "<ul><li>Stift anklicken</li>" +
-        //     "<li>Flächen zeichnen wählen</li>" +
-        //     "<li>Einzelklick in Karte setzt Punkt (Mobilgeräte maximal 5 Punkte) </li>" +
-        //     "<li>ansonsten auf den 1. Punkt klicken schließt Fläche</li><li>Hilfe: Tel: 0XXXXX XXXXXX </li>" +
-        //     "</ul></div>");
+        const infoOverlay = new InfoOverlay();
+        this.map.addOverlay(infoOverlay);
+        infoOverlay.show(this.map.getView().getCenter(),
+            "<div> Bitte betroffene Region auf der Karte markieren: " +
+            "<ul><li>Stift anklicken</li>" +
+            "<li>Flächen zeichnen wählen</li>" +
+            "<li>Einzelklick in Karte setzt Punkt (Mobilgeräte maximal 5 Punkte) </li>" +
+            "<li>ansonsten auf den 1. Punkt klicken schließt Fläche</li><li>Hilfe: Tel: 0XXXXX XXXXXX </li>" +
+            "</ul></div>");
 
         // this.map.on("moveend", () => {
         //     // Test Zentrierung die Info wenn die Karte bewegt wurde
@@ -191,7 +192,7 @@ class MapService implements IMapService {
             //     console.log("saveAs " + map.getSize());
             // });
         });
-        const printSize = [width, height];
+        const printSize: Size = [width, height];
         map.setSize(printSize);
         const scaling = Math.min(width / size[0], height / size[1]);
         map.getView().setResolution(viewResolution / scaling);
