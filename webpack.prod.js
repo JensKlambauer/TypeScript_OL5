@@ -1,6 +1,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
@@ -69,11 +69,21 @@ module.exports = {
     ],
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
+            new TerserPlugin({
                 cache: true,
                 parallel: true,
-                // sourceMap: true // set to true if you want JS source maps
-            })
+                // sourceMap: true, // Must be set to true if using source-maps in production
+                // terserOptions: {
+                //   ie8: true,
+                //   safari10: true,
+                //   sourceMap: true
+                // }
+              })
+            // new UglifyJsPlugin({
+            //     cache: true,
+            //     parallel: true,
+            //     // sourceMap: true // set to true if you want JS source maps
+            // })
         ],
         // splitChunks: {chunks: 'all'}
     }
